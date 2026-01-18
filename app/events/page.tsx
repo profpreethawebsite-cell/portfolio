@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import SectionLayout from '@/components/SectionLayout';
-import { getEvents } from '@/lib/firebase-utils';
+import { getEvents } from '@/lib/supabase-utils';
 import { Event } from '@/types';
 import { Calendar, MapPin, Tag } from 'lucide-react';
 

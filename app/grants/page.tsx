@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import SectionLayout from '@/components/SectionLayout';
-import { getGrants } from '@/lib/firebase-utils';
+import { getGrants } from '@/lib/supabase-utils';
 import { Grant } from '@/types';
 import { DollarSign, Calendar, FileText } from 'lucide-react';
 

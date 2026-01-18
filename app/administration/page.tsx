@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import SectionLayout from '@/components/SectionLayout';
-import { getAdminRoles } from '@/lib/firebase-utils';
+import { getAdminRoles } from '@/lib/supabase-utils';
 import { AdminRole } from '@/types';
 import { Briefcase, Calendar } from 'lucide-react';
 

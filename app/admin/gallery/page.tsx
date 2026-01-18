@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { motion } from 'framer-motion';
-import { getGalleryImages, addGalleryImage, deleteGalleryImage } from '@/lib/firebase-utils';
+import { getGalleryImages, addGalleryImage, deleteGalleryImage } from '@/lib/supabase-utils';
 import { uploadImage, deleteImage, generateImagePath } from '@/lib/storage-utils';
 import { GalleryImage } from '@/types';
 import { Plus, Edit, Trash2, X, Save, Upload, Image as ImageIcon } from 'lucide-react';

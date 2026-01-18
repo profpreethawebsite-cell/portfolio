@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { motion } from 'framer-motion';
-import { getPublications, addPublication, updatePublication, deletePublication } from '@/lib/firebase-utils';
+import { getPublications, addPublication, updatePublication, deletePublication } from '@/lib/supabase-utils';
 import { Publication } from '@/types';
 import { Plus, Edit, Trash2, X, Save } from 'lucide-react';
 import Link from 'next/link';

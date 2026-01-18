@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import SectionLayout from '@/components/SectionLayout';
-import { getPublications } from '@/lib/firebase-utils';
+import { getPublications } from '@/lib/supabase-utils';
 import { Publication } from '@/types';
 import { BookOpen, Calendar, ExternalLink } from 'lucide-react';
 

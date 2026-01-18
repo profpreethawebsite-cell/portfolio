@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import SectionLayout from '@/components/SectionLayout';
-import { getPatents } from '@/lib/firebase-utils';
+import { getPatents } from '@/lib/supabase-utils';
 import { Patent } from '@/types';
 import { FileText, Award as AwardIcon, Calendar } from 'lucide-react';
 

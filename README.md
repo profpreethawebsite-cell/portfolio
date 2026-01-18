@@ -1,19 +1,20 @@
 # Dr. J. Preetha Roselyn - Portfolio Website
 
-A beautiful, professional portfolio website built with Next.js 16, TypeScript, Tailwind CSS, Firebase, and Framer Motion. This website showcases academic achievements, research work, publications, grants, and more.
+A beautiful, professional portfolio website built with Next.js 16, TypeScript, Tailwind CSS, Supabase, and Framer Motion. This website showcases academic achievements, research work, publications, grants, and more.
 
 ## Features
 
 - 🎨 **Modern Design** - Clean, professional, and responsive design
 - ✨ **Smooth Animations** - Beautiful transitions powered by Framer Motion
-- 🔐 **Admin Panel** - Easy content management with Firebase Authentication
+- 🔐 **Admin Panel** - Easy content management with Supabase Authentication
 - 📱 **Responsive** - Works seamlessly on all devices
 - 🚀 **Fast Performance** - Built with Next.js for optimal performance
-- 🔥 **Firebase Integration** - Database, Authentication, and Storage support
+- 🗄️ **Supabase Backend** - PostgreSQL database, Storage, and Authentication
+- 🌐 **Vercel Hosting** - Global CDN and automatic deployments
 
 ## Sections
 
-- **Home** - Hero section with key achievements
+- **Home** - Hero section with profile image and key achievements
 - **About** - Professional background and specialization
 - **Funded Grants** - Research grants and funded projects
 - **Publications** - International publications and research papers
@@ -30,9 +31,10 @@ A beautiful, professional portfolio website built with Next.js 16, TypeScript, T
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS 4
 - **Animations**: Framer Motion
-- **Database**: Firebase Firestore
-- **Authentication**: Firebase Auth
-- **Storage**: Firebase Storage (for gallery images)
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage (for gallery images)
+- **Hosting**: Vercel
 - **Icons**: Lucide React
 
 ## Getting Started
@@ -40,7 +42,7 @@ A beautiful, professional portfolio website built with Next.js 16, TypeScript, T
 ### Prerequisites
 
 - Node.js 18+ installed
-- Firebase project created (if not, see Firebase Setup below)
+- Supabase account (free tier available)
 - npm or yarn package manager
 
 ### Installation
@@ -60,13 +62,11 @@ A beautiful, professional portfolio website built with Next.js 16, TypeScript, T
 
    Create a `.env.local` file in the root directory:
    ```env
-   NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key-here
-   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
-   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
-   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
-   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=123456789
-   NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
+   NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
    ```
+
+   Get these values from Supabase Dashboard → Settings → API
 
 4. **Run the development server**
    ```bash
@@ -76,69 +76,20 @@ A beautiful, professional portfolio website built with Next.js 16, TypeScript, T
 5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## Firebase Setup
+## Supabase Setup
 
-1. **Create a Firebase Project**
-   - Go to [Firebase Console](https://console.firebase.google.com/)
-   - Click "Add Project" and follow the setup wizard
+See `SUPABASE_SETUP.md` for complete Supabase setup instructions.
 
-2. **Enable Authentication**
-   - In Firebase Console, go to Authentication
-   - Click "Get Started"
-   - Enable "Email/Password" sign-in method
-
-3. **Create Firestore Database**
-   - Go to Firestore Database
-   - Click "Create Database"
-   - Start in production mode (you can change rules later)
-   - Choose your preferred location
-
-4. **Set Firestore Security Rules**
-   ```javascript
-   rules_version = '2';
-   service cloud.firestore {
-     match /databases/{database}/documents {
-       // Allow read access to all collections
-       match /{collection}/{document=**} {
-         allow read: if true;
-       }
-       
-       // Allow write access only to authenticated users
-       match /{collection}/{document=**} {
-         allow write: if request.auth != null;
-       }
-     }
-   }
-   ```
-
-5. **Get Firebase Configuration**
-   - Go to Project Settings > General
-   - Scroll down to "Your apps"
-   - Click the web icon (</>) to add a web app
-   - Copy the configuration values to your `.env.local` file
-
-6. **Create Admin User**
-   - Go to Authentication > Users
-   - Click "Add user"
-   - Create an admin account with email and password
-   - Use these credentials to log in to `/admin/login`
-
-## Firebase Collections Structure
-
-The website uses the following Firestore collections:
-
-- `grants` - Funded grants and projects
-- `publications` - Research publications
-- `adminRoles` - Administration roles
-- `patents` - Patents information
-- `awards` - Awards and recognition
-- `events` - Organized events
-- `gallery` - Gallery images
-- `profile` - Main profile data (document ID: "main")
+Quick steps:
+1. Create Supabase project at [supabase.com](https://supabase.com)
+2. Run the SQL schema from `supabase/schema.sql`
+3. Create admin user in Authentication
+4. Set up Storage bucket for gallery
+5. Add environment variables to `.env.local`
 
 ## Admin Panel
 
-Access the admin panel at `/admin/login` using your Firebase Authentication credentials.
+Access the admin panel at `/admin/login` using your Supabase Authentication credentials.
 
 From the admin dashboard, you can:
 - Add, edit, and delete grants
@@ -148,55 +99,19 @@ From the admin dashboard, you can:
 - Upload and manage gallery images
 - Update profile information
 
-## Adding More Admin Pages
-
-To add admin pages for other sections (patents, awards, etc.), follow the pattern used in `app/admin/grants/page.tsx`:
-
-1. Import the corresponding Firebase utility functions
-2. Use the same state management pattern
-3. Create forms matching the data structure
-4. Use `ProtectedRoute` component to secure the page
-
 ## Deployment
 
 ### Deploy to Vercel (Recommended)
 
+See `DEPLOYMENT.md` for complete deployment guide.
+
+Quick steps:
 1. Push your code to GitHub
-2. Import the project in [Vercel](https://vercel.com)
-3. Add environment variables in Vercel dashboard
+2. Import project in [Vercel](https://vercel.com)
+3. Add environment variables (Supabase URL and key)
 4. Deploy!
 
-### Deploy to Firebase Hosting
-
-1. **Install Firebase CLI**
-   ```bash
-   npm install -g firebase-tools
-   ```
-
-2. **Login to Firebase**
-   ```bash
-   firebase login
-   ```
-
-3. **Initialize Firebase**
-   ```bash
-   firebase init
-   ```
-   - Select Hosting
-   - Select your Firebase project
-   - Set public directory to `.next`
-   - Configure as single-page app: No
-   - Set up automatic builds: Yes
-
-4. **Build the project**
-   ```bash
-   npm run build
-   ```
-
-5. **Deploy**
-   ```bash
-   firebase deploy
-   ```
+Your site will be live in 2-3 minutes!
 
 ## Project Structure
 
@@ -218,28 +133,47 @@ portfolio-website/
 │   ├── Navigation.tsx       # Navigation bar
 │   ├── Hero.tsx             # Hero section
 │   ├── About.tsx            # About section
-│   ├── Footer.tsx           # Footer component
-│   └── SectionLayout.tsx    # Layout for section pages
+│   ├── Footer.tsx            # Footer component
+│   └── SectionLayout.tsx     # Layout for section pages
 ├── contexts/                # React contexts
 │   └── AuthContext.tsx      # Authentication context
 ├── lib/                     # Utility functions
-│   ├── firebase.ts          # Firebase configuration
-│   └── firebase-utils.ts    # Firebase CRUD operations
-├── types/                   # TypeScript types
+│   ├── supabase.ts          # Supabase client
+│   ├── supabase-utils.ts    # Supabase CRUD operations
+│   └── storage-utils.ts      # Storage operations
+├── supabase/                # Supabase files
+│   └── schema.sql           # Database schema
+├── types/                    # TypeScript types
 │   └── index.ts             # Type definitions
 └── public/                  # Static assets
 ```
 
+## Updating Content
+
+### Via Admin Panel (No Deployment Needed)
+- Login to `/admin/login`
+- Edit content directly
+- Changes appear immediately
+
+### Via Code (Requires Deployment)
+- Edit code files
+- Push to GitHub
+- Vercel auto-deploys in 2-3 minutes
+
 ## Customization
 
-- **Colors**: Edit Tailwind classes in components to change color scheme (default: indigo/purple)
+- **Colors**: Edit Tailwind classes in components (default: indigo/purple)
 - **Fonts**: Modify fonts in `app/layout.tsx`
 - **Animations**: Adjust Framer Motion variants in components
-- **Content**: Update content directly in components or via admin panel
+- **Content**: Update via admin panel or directly in components
 
 ## Support
 
-For issues or questions, please contact the development team or create an issue in the repository.
+For issues or questions:
+- Check `SUPABASE_SETUP.md` for backend setup
+- Check `DEPLOYMENT.md` for deployment help
+- Review Supabase documentation
+- Review Vercel documentation
 
 ## License
 
@@ -247,4 +181,4 @@ This project is created for Dr. J. Preetha Roselyn's portfolio website.
 
 ---
 
-Built with ❤️ using Next.js and Firebase
+Built with ❤️ using Next.js, Supabase, and Vercel

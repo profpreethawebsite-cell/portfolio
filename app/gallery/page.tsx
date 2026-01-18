@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import SectionLayout from '@/components/SectionLayout';
-import { getGalleryImages } from '@/lib/firebase-utils';
+import { getGalleryImages } from '@/lib/supabase-utils';
 import { GalleryImage } from '@/types';
 import Image from 'next/image';
 
