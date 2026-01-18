@@ -110,12 +110,12 @@ export default function AdminGalleryPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 py-12">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900">Manage Gallery</h1>
-              <p className="text-gray-600 mt-2">Upload, edit, or delete gallery images</p>
+              <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Manage Gallery</h1>
+              <p className="text-gray-600 dark:text-gray-400 mt-2">Upload, edit, or delete gallery images</p>
             </div>
             <div className="flex space-x-4">
               <Link
@@ -138,11 +138,11 @@ export default function AdminGalleryPage() {
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-lg shadow-lg p-6 mb-6"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6"
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-semibold">Upload New Image</h2>
-                <button onClick={() => setShowForm(false)} className="text-gray-500 hover:text-gray-700">
+                <h2 className="text-2xl font-semibold dark:text-white">Upload New Image</h2>
+                <button onClick={() => setShowForm(false)} className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                   <X size={24} />
                 </button>
               </div>
@@ -152,7 +152,7 @@ export default function AdminGalleryPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Image File *
                   </label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-indigo-500 transition-colors">
+                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors">
                     {preview ? (
                       <div className="space-y-4">
                         <Image
@@ -175,11 +175,11 @@ export default function AdminGalleryPage() {
                       </div>
                     ) : (
                       <div>
-                        <ImageIcon className="mx-auto text-gray-400 mb-2" size={48} />
-                        <p className="text-sm text-gray-600 mb-2">
+                        <ImageIcon className="mx-auto text-gray-400 dark:text-gray-500 mb-2" size={48} />
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                           Click to upload or drag and drop
                         </p>
-                        <p className="text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, GIF up to 5MB</p>
                       </div>
                     )}
                     <input
@@ -281,10 +281,10 @@ export default function AdminGalleryPage() {
                     </div>
                     <div className="p-4">
                       {image.caption && (
-                        <p className="text-sm font-medium text-gray-900 mb-1">{image.caption}</p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white mb-1">{image.caption}</p>
                       )}
                       {image.category && (
-                        <p className="text-xs text-gray-500 mb-3">{image.category}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">{image.category}</p>
                       )}
                       <button
                         onClick={() => handleDelete(image)}

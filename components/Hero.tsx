@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { ArrowDown, Award, BookOpen, GraduationCap, Users } from 'lucide-react';
 import Image from 'next/image';
+import CountUp from '@/components/CountUp';
+import { getPublications, getGrants } from '@/lib/supabase-utils';
 
 export default function Hero() {
   const [profileData, setProfileData] = useState({
@@ -12,9 +14,33 @@ export default function Hero() {
     department: 'Department of Electrical and Electronics Engineering',
     university: 'SRM Institute of Science and Technology',
   });
+  const [counts, setCounts] = useState({
+    publications: 55,
+    grants: 0,
+    scholars: 11,
+  });
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const [publications, grants] = await Promise.all([
+          getPublications(),
+          getGrants(),
+        ]);
+        setCounts({
+          publications: publications.length || 55,
+          grants: grants.length || 0,
+          scholars: 11, // This can be updated if you track it in database
+        });
+      } catch (error) {
+        console.error('Error fetching counts:', error);
+      }
+    };
+    fetchCounts();
+  }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -91,7 +117,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-5xl md:text-7xl font-bold text-gray-900 mb-4"
+            className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-4"
           >
             {profileData.name}
           </motion.h1>
@@ -100,7 +126,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-2xl md:text-3xl text-indigo-600 font-semibold mb-2"
+            className="text-2xl md:text-3xl text-indigo-600 dark:text-indigo-400 font-semibold mb-2"
           >
             {profileData.title}
           </motion.p>
@@ -109,7 +135,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className="text-lg md:text-xl text-gray-600 mb-8"
+            className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8"
           >
             {profileData.department}<br />
             {profileData.university}
@@ -121,20 +147,26 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.9 }}
             className="flex flex-wrap justify-center gap-8 mt-12"
           >
-            <div className="flex items-center space-x-2 text-gray-700">
-              <GraduationCap className="text-indigo-600" size={24} />
-              <span className="text-sm font-medium">20+ Years Experience</span>
+            <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
+              <GraduationCap className="text-indigo-600 dark:text-indigo-400" size={24} />
+              <span className="text-sm font-medium">
+                <CountUp end={20} suffix="+" /> Years Experience
+              </span>
             </div>
-            <div className="flex items-center space-x-2 text-gray-700">
-              <BookOpen className="text-indigo-600" size={24} />
-              <span className="text-sm font-medium">55+ Publications</span>
+            <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
+              <BookOpen className="text-indigo-600 dark:text-indigo-400" size={24} />
+              <span className="text-sm font-medium">
+                <CountUp end={counts.publications} suffix="+" /> Publications
+              </span>
             </div>
-            <div className="flex items-center space-x-2 text-gray-700">
-              <Users className="text-indigo-600" size={24} />
-              <span className="text-sm font-medium">11 PhD Scholars</span>
+            <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
+              <Users className="text-indigo-600 dark:text-indigo-400" size={24} />
+              <span className="text-sm font-medium">
+                <CountUp end={11} /> PhD Scholars
+              </span>
             </div>
-            <div className="flex items-center space-x-2 text-gray-700">
-              <Award className="text-indigo-600" size={24} />
+            <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
+              <Award className="text-indigo-600 dark:text-indigo-400" size={24} />
               <span className="text-sm font-medium">Multiple Awards</span>
             </div>
           </motion.div>
@@ -150,7 +182,7 @@ export default function Hero() {
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <ArrowDown className="text-indigo-600" size={32} />
+            <ArrowDown className="text-indigo-600 dark:text-indigo-400" size={32} />
           </motion.div>
         </motion.div>
       </div>

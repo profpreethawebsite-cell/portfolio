@@ -11,7 +11,7 @@ interface SectionLayoutProps {
 
 export default function SectionLayout({ title, subtitle, children }: SectionLayoutProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       <Navigation />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -26,11 +26,11 @@ export default function SectionLayout({ title, subtitle, children }: SectionLayo
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-center mb-12"
           >
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
               {title}
             </h1>
             {subtitle && (
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                 {subtitle}
               </p>
             )}
