@@ -64,13 +64,18 @@ export interface ProfileData {
   title: string;
   department: string;
   university: string;
-  bio: string;
+  bio?: string;
   qualifications: string[];
-  experience: string;
+  experience?: string;
+  yearsOfExperience?: number;
   specialization: string[];
   achievements: string[];
+  researchInterests?: string;
   email?: string;
   phone?: string;
   address?: string;
   profileImage?: string;
+  linkedinUrl?: string;
+  collegeUrl?: string;
+  scholarsCount?: number;
 }

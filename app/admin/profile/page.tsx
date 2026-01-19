@@ -5,7 +5,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { motion } from 'framer-motion';
 import { getProfile, updateProfile } from '@/lib/supabase-utils';
 import { ProfileData } from '@/types';
-import { Save } from 'lucide-react';
+import { Save, Plus, X } from 'lucide-react';
 import Link from 'next/link';
 import ThemeToggle from '@/components/ThemeToggle';
 
@@ -125,12 +125,41 @@ export default function AdminProfilePage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Experience</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Years of Experience</label>
                   <input
-                    type="text"
+                    type="number"
+                    value={formData.yearsOfExperience || ''}
+                    onChange={(e) => setFormData({ ...formData, yearsOfExperience: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">PhD Scholars Count</label>
+                  <input
+                    type="number"
+                    value={formData.scholarsCount || ''}
+                    onChange={(e) => setFormData({ ...formData, scholarsCount: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Professional Experience (Detailed)</label>
+                  <textarea
                     value={formData.experience || ''}
                     onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
+                    rows={4}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
+                    placeholder="Describe your professional experience..."
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Research Interests</label>
+                  <textarea
+                    value={formData.researchInterests || ''}
+                    onChange={(e) => setFormData({ ...formData, researchInterests: e.target.value })}
+                    rows={3}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
+                    placeholder="Model-based development, digital twin, grid integration issues..."
                   />
                 </div>
                 <div>
@@ -140,6 +169,7 @@ export default function AdminProfilePage() {
                     value={formData.email || ''}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
+                    placeholder="preethaj@srmist.edu.in"
                   />
                 </div>
                 <div>
@@ -159,6 +189,168 @@ export default function AdminProfilePage() {
                     rows={2}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
                   />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">LinkedIn URL</label>
+                  <input
+                    type="url"
+                    value={formData.linkedinUrl || ''}
+                    onChange={(e) => setFormData({ ...formData, linkedinUrl: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
+                    placeholder="https://www.linkedin.com/in/preetha-roselyn-17911916/"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">College Profile URL</label>
+                  <input
+                    type="url"
+                    value={formData.collegeUrl || ''}
+                    onChange={(e) => setFormData({ ...formData, collegeUrl: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
+                    placeholder="https://www.srmist.edu.in/faculty/dr-j-preetha-roselyn/"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Profile Image URL</label>
+                  <input
+                    type="url"
+                    value={formData.profileImage || ''}
+                    onChange={(e) => setFormData({ ...formData, profileImage: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
+                    placeholder="/profile-image.png"
+                  />
+                </div>
+              </div>
+
+              {/* Qualifications Array */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Qualifications</label>
+                <div className="space-y-2">
+                  {(formData.qualifications || []).map((qual, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        value={qual}
+                        onChange={(e) => {
+                          const newQuals = [...(formData.qualifications || [])];
+                          newQuals[index] = e.target.value;
+                          setFormData({ ...formData, qualifications: newQuals });
+                        }}
+                        className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newQuals = (formData.qualifications || []).filter((_, i) => i !== index);
+                          setFormData({ ...formData, qualifications: newQuals });
+                        }}
+                        className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                      >
+                        <X size={20} />
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormData({
+                        ...formData,
+                        qualifications: [...(formData.qualifications || []), ''],
+                      });
+                    }}
+                    className="flex items-center space-x-2 px-4 py-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
+                  >
+                    <Plus size={20} />
+                    <span>Add Qualification</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Specialization Array */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Areas of Specialization</label>
+                <div className="space-y-2">
+                  {(formData.specialization || []).map((spec, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        value={spec}
+                        onChange={(e) => {
+                          const newSpecs = [...(formData.specialization || [])];
+                          newSpecs[index] = e.target.value;
+                          setFormData({ ...formData, specialization: newSpecs });
+                        }}
+                        className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newSpecs = (formData.specialization || []).filter((_, i) => i !== index);
+                          setFormData({ ...formData, specialization: newSpecs });
+                        }}
+                        className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                      >
+                        <X size={20} />
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormData({
+                        ...formData,
+                        specialization: [...(formData.specialization || []), ''],
+                      });
+                    }}
+                    className="flex items-center space-x-2 px-4 py-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
+                  >
+                    <Plus size={20} />
+                    <span>Add Specialization</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Achievements Array */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Key Achievements</label>
+                <div className="space-y-2">
+                  {(formData.achievements || []).map((achievement, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <textarea
+                        value={achievement}
+                        onChange={(e) => {
+                          const newAchievements = [...(formData.achievements || [])];
+                          newAchievements[index] = e.target.value;
+                          setFormData({ ...formData, achievements: newAchievements });
+                        }}
+                        rows={2}
+                        className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-600 dark:bg-gray-700 dark:text-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newAchievements = (formData.achievements || []).filter((_, i) => i !== index);
+                          setFormData({ ...formData, achievements: newAchievements });
+                        }}
+                        className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                      >
+                        <X size={20} />
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormData({
+                        ...formData,
+                        achievements: [...(formData.achievements || []), ''],
+                      });
+                    }}
+                    className="flex items-center space-x-2 px-4 py-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
+                  >
+                    <Plus size={20} />
+                    <span>Add Achievement</span>
+                  </button>
                 </div>
               </div>
               <div className="flex justify-end">

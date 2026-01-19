@@ -14,12 +14,17 @@ CREATE TABLE IF NOT EXISTS profile (
   bio TEXT,
   qualifications TEXT[],
   experience TEXT,
+  years_of_experience INTEGER,
   specialization TEXT[],
   achievements TEXT[],
+  research_interests TEXT,
   email TEXT,
   phone TEXT,
   address TEXT,
   profile_image TEXT,
+  linkedin_url TEXT,
+  college_url TEXT,
+  scholars_count INTEGER,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

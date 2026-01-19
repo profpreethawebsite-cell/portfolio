@@ -7,6 +7,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Lock, Mail, AlertCircle } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 
+// Force dynamic rendering to avoid SSR issues with ThemeContext
+export const dynamic = 'force-dynamic';
+
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

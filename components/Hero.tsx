@@ -5,38 +5,42 @@ import { useEffect, useState } from 'react';
 import { ArrowDown, Award, BookOpen, GraduationCap, Users } from 'lucide-react';
 import Image from 'next/image';
 import CountUp from '@/components/CountUp';
-import { getPublications, getGrants } from '@/lib/supabase-utils';
+import { getPublications, getGrants, getProfile } from '@/lib/supabase-utils';
+import { ProfileData } from '@/types';
 
 export default function Hero() {
-  const [profileData, setProfileData] = useState({
-    name: 'Dr. J. Preetha Roselyn',
-    title: 'Professor',
-    department: 'Department of Electrical and Electronics Engineering',
-    university: 'SRM Institute of Science and Technology',
-  });
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [counts, setCounts] = useState({
-    publications: 55,
+    publications: 0,
     grants: 0,
-    scholars: 11,
+    scholars: 0,
+    yearsExperience: 20,
   });
 
   useEffect(() => {
-    const fetchCounts = async () => {
+    const fetchData = async () => {
       try {
-        const [publications, grants] = await Promise.all([
+        const [publications, grants, profile] = await Promise.all([
           getPublications(),
           getGrants(),
+          getProfile(),
         ]);
+        
+        if (profile) {
+          setProfileData(profile);
+        }
+        
         setCounts({
-          publications: publications.length || 55,
-          grants: grants.length || 0,
-          scholars: 11, // This can be updated if you track it in database
+          publications: publications.length,
+          grants: grants.length,
+          scholars: profile?.scholarsCount || 0,
+          yearsExperience: profile?.yearsOfExperience || 20,
         });
       } catch (error) {
-        console.error('Error fetching counts:', error);
+        console.error('Error fetching data:', error);
       }
     };
-    fetchCounts();
+    fetchData();
   }, []);
 
   return (
@@ -90,8 +94,8 @@ export default function Hero() {
               {/* Image container with elegant frame */}
               <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden shadow-2xl ring-4 ring-white ring-offset-4 ring-offset-indigo-50">
                 <Image
-                  src="/profile-image.png"
-                  alt="Dr. J. Preetha Roselyn"
+                  src={profileData?.profileImage || "/profile-image.png"}
+                  alt={profileData?.name || "Dr. J. Preetha Roselyn"}
                   fill
                   className="object-cover object-center"
                   priority
@@ -119,7 +123,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-4"
           >
-            {profileData.name}
+            {profileData?.name || 'Dr. J. Preetha Roselyn'}
           </motion.h1>
           
           <motion.p
@@ -128,7 +132,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="text-2xl md:text-3xl text-indigo-600 dark:text-indigo-400 font-semibold mb-2"
           >
-            {profileData.title}
+            {profileData?.title || 'Professor'}
           </motion.p>
           
           <motion.p
@@ -137,8 +141,8 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.7 }}
             className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8"
           >
-            {profileData.department}<br />
-            {profileData.university}
+            {profileData?.department || 'Department of Electrical and Electronics Engineering'}<br />
+            {profileData?.university || 'SRM Institute of Science and Technology'}
           </motion.p>
 
           <motion.div
@@ -150,7 +154,7 @@ export default function Hero() {
             <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
               <GraduationCap className="text-indigo-600 dark:text-indigo-400" size={24} />
               <span className="text-sm font-medium">
-                <CountUp end={20} suffix="+" /> Years Experience
+                <CountUp end={counts.yearsExperience} suffix="+" /> Years Experience
               </span>
             </div>
             <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
@@ -162,7 +166,7 @@ export default function Hero() {
             <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
               <Users className="text-indigo-600 dark:text-indigo-400" size={24} />
               <span className="text-sm font-medium">
-                <CountUp end={11} /> PhD Scholars
+                <CountUp end={counts.scholars} /> PhD Scholars
               </span>
             </div>
             <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">

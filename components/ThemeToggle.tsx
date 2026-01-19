@@ -2,10 +2,26 @@
 
 import { Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from '@/contexts/ThemeContext';
 
 export default function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const themeContext = useContext(ThemeContext);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !themeContext) {
+    return (
+      <div className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700">
+        <Moon size={20} className="text-gray-800 dark:text-gray-200" />
+      </div>
+    );
+  }
+
+  const { theme, toggleTheme } = themeContext;
 
   return (
     <motion.button

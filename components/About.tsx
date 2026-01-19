@@ -2,15 +2,35 @@
 
 import { motion } from 'framer-motion';
 import { CheckCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { getProfile } from '@/lib/supabase-utils';
+import { ProfileData } from '@/types';
 
 export default function About() {
-  const qualifications = [
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const data = await getProfile();
+        setProfileData(data);
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  const qualifications = profileData?.qualifications || [
     'B.E (EEE) from Madras University, 2002',
     'M.S (By Research) from Anna University, 2007',
     'Ph.D from SRM University, 2015',
   ];
 
-  const specialization = [
+  const specialization = profileData?.specialization || [
     'Voltage stability',
     'Machine Learning',
     'Artificial Intelligence',
@@ -19,7 +39,7 @@ export default function About() {
     'Microgrid',
   ];
 
-  const achievements = [
+  const achievements = profileData?.achievements || [
     'Established NI ACADEMY AND RESEARCH CENTRE in SRM Institute of Science and Technology',
     'Published 55 international publications',
     'Published 1 book: "GA based placement of FACTS devices for voltage stability Enhancement"',
@@ -29,6 +49,16 @@ export default function About() {
     'Received IEEE publication award, John P Craven mentor international award',
     'Honorary Rosalind member of London Journals Press',
   ];
+
+  const experienceText = profileData?.experience || 
+    `With ${profileData?.yearsOfExperience || 20} years of professional experience, Dr. J. Preetha Roselyn is a
+    distinguished Professor in the Department of Electrical and Electronics
+    Engineering at SRM Institute of Science and Technology. She has made
+    significant contributions to the fields of power systems, renewable energy,
+    and smart grid technologies.`;
+
+  const researchInterests = profileData?.researchInterests ||
+    'Model-based development, digital twin, grid integration issues of PV and Wind, Energy management system in microgrid, building management systems, and zero downtime approach in industries.';
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -74,11 +104,7 @@ export default function About() {
                 Professional Experience
               </h3>
               <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                With 20 years of professional experience, Dr. J. Preetha Roselyn is a
-                distinguished Professor in the Department of Electrical and Electronics
-                Engineering at SRM Institute of Science and Technology. She has made
-                significant contributions to the fields of power systems, renewable energy,
-                and smart grid technologies.
+                {experienceText}
               </p>
             </div>
 
@@ -153,9 +179,7 @@ export default function About() {
             Research Interests
           </h3>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-            Model-based development, digital twin, grid integration issues of PV and Wind,
-            Energy management system in microgrid, building management systems, and zero
-            downtime approach in industries.
+            {researchInterests}
           </p>
         </motion.div>
       </div>

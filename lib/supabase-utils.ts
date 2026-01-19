@@ -20,7 +20,29 @@ export const getProfile = async (): Promise<ProfileData | null> => {
       .single();
 
     if (error) throw error;
-    return data as ProfileData;
+    if (!data) return null;
+    
+    // Map snake_case to camelCase
+    return {
+      name: data.name,
+      title: data.title,
+      department: data.department,
+      university: data.university,
+      bio: data.bio,
+      qualifications: data.qualifications || [],
+      experience: data.experience,
+      yearsOfExperience: data.years_of_experience,
+      specialization: data.specialization || [],
+      achievements: data.achievements || [],
+      researchInterests: data.research_interests,
+      email: data.email,
+      phone: data.phone,
+      address: data.address,
+      profileImage: data.profile_image,
+      linkedinUrl: data.linkedin_url,
+      collegeUrl: data.college_url,
+      scholarsCount: data.scholars_count,
+    } as ProfileData;
   } catch (error) {
     console.error('Error fetching profile:', error);
     return null;
@@ -29,9 +51,33 @@ export const getProfile = async (): Promise<ProfileData | null> => {
 
 export const updateProfile = async (data: Partial<ProfileData>) => {
   try {
+    // Map camelCase to snake_case
+    const updateData: any = {
+      id: 'main',
+    };
+    
+    if (data.name !== undefined) updateData.name = data.name;
+    if (data.title !== undefined) updateData.title = data.title;
+    if (data.department !== undefined) updateData.department = data.department;
+    if (data.university !== undefined) updateData.university = data.university;
+    if (data.bio !== undefined) updateData.bio = data.bio;
+    if (data.qualifications !== undefined) updateData.qualifications = data.qualifications;
+    if (data.experience !== undefined) updateData.experience = data.experience;
+    if (data.yearsOfExperience !== undefined) updateData.years_of_experience = data.yearsOfExperience;
+    if (data.specialization !== undefined) updateData.specialization = data.specialization;
+    if (data.achievements !== undefined) updateData.achievements = data.achievements;
+    if (data.researchInterests !== undefined) updateData.research_interests = data.researchInterests;
+    if (data.email !== undefined) updateData.email = data.email;
+    if (data.phone !== undefined) updateData.phone = data.phone;
+    if (data.address !== undefined) updateData.address = data.address;
+    if (data.profileImage !== undefined) updateData.profile_image = data.profileImage;
+    if (data.linkedinUrl !== undefined) updateData.linkedin_url = data.linkedinUrl;
+    if (data.collegeUrl !== undefined) updateData.college_url = data.collegeUrl;
+    if (data.scholarsCount !== undefined) updateData.scholars_count = data.scholarsCount;
+    
     const { error } = await supabase
       .from('profile')
-      .upsert({ id: 'main', ...data }, { onConflict: 'id' });
+      .upsert(updateData, { onConflict: 'id' });
     if (error) throw error;
   } catch (error) {
     console.error('Error updating profile:', error);

@@ -1,12 +1,15 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import SectionLayout from '@/components/SectionLayout';
 import { Mail, Phone, MapPin, Send, Linkedin, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+import { getProfile } from '@/lib/supabase-utils';
+import { ProfileData } from '@/types';
 
 export default function ContactPage() {
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,6 +18,14 @@ export default function ContactPage() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const data = await getProfile();
+      setProfileData(data);
+    };
+    fetchProfile();
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -66,36 +77,47 @@ export default function ContactPage() {
               </div>
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Email</h4>
-                <a 
-                  href="mailto:preethaj@srmist.edu.in" 
-                  className="text-indigo-600 dark:text-indigo-400 hover:underline"
-                >
-                  preethaj@srmist.edu.in
-                </a>
+                {profileData?.email ? (
+                  <a 
+                    href={`mailto:${profileData.email}`} 
+                    className="text-indigo-600 dark:text-indigo-400 hover:underline"
+                  >
+                    {profileData.email}
+                  </a>
+                ) : (
+                  <a 
+                    href="mailto:preethaj@srmist.edu.in" 
+                    className="text-indigo-600 dark:text-indigo-400 hover:underline"
+                  >
+                    preethaj@srmist.edu.in
+                  </a>
+                )}
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 }}
-              className="flex items-start space-x-4"
-            >
-              <div className="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
-                <Linkedin className="text-indigo-600 dark:text-indigo-400" size={24} />
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-white mb-1">LinkedIn</h4>
-                <a 
-                  href="https://www.linkedin.com/in/preetha-roselyn-17911916/" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
-                >
-                  View Profile <ExternalLink size={14} />
-                </a>
-              </div>
-            </motion.div>
+            {profileData?.linkedinUrl && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="flex items-start space-x-4"
+              >
+                <div className="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+                  <Linkedin className="text-indigo-600 dark:text-indigo-400" size={24} />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-1">LinkedIn</h4>
+                  <a 
+                    href={profileData.linkedinUrl} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
+                  >
+                    View Profile <ExternalLink size={14} />
+                  </a>
+                </div>
+              </motion.div>
+            )}
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -109,17 +131,41 @@ export default function ContactPage() {
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Address</h4>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Department of Electrical and Electronics Engineering<br />
-                  <a 
-                    href="https://www.srmist.edu.in/faculty/dr-j-preetha-roselyn/" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1"
-                  >
-                    SRM Institute of Science and Technology <ExternalLink size={12} />
-                  </a><br />
-                  Kattankulathur, Chengalpattu District<br />
-                  Tamil Nadu, India
+                  {profileData?.department || 'Department of Electrical and Electronics Engineering'}<br />
+                  {profileData?.collegeUrl ? (
+                    <a 
+                      href={profileData.collegeUrl} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1"
+                    >
+                      {profileData.university || 'SRM Institute of Science and Technology'} <ExternalLink size={12} />
+                    </a>
+                  ) : (
+                    <>
+                      <a 
+                        href="https://www.srmist.edu.in/faculty/dr-j-preetha-roselyn/" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1"
+                      >
+                        {profileData?.university || 'SRM Institute of Science and Technology'} <ExternalLink size={12} />
+                      </a>
+                    </>
+                  )}
+                  {profileData?.address && (
+                    <>
+                      <br />
+                      {profileData.address}
+                    </>
+                  )}
+                  {!profileData?.address && (
+                    <>
+                      <br />
+                      Kattankulathur, Chengalpattu District<br />
+                      Tamil Nadu, India
+                    </>
+                  )}
                 </p>
               </div>
             </motion.div>

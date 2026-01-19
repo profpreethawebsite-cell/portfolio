@@ -2,17 +2,30 @@
 
 import Link from 'next/link';
 import { Mail, MapPin, Linkedin, ExternalLink } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { getProfile } from '@/lib/supabase-utils';
+import { ProfileData } from '@/types';
 
 export default function Footer() {
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const data = await getProfile();
+      setProfileData(data);
+    };
+    fetchProfile();
+  }, []);
+
   return (
     <footer className="bg-gray-900 dark:bg-black text-gray-300 dark:text-gray-400 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl font-bold text-white dark:text-white mb-4">Dr. J. Preetha Roselyn</h3>
+            <h3 className="text-xl font-bold text-white dark:text-white mb-4">{profileData?.name || 'Dr. J. Preetha Roselyn'}</h3>
             <p className="text-sm text-gray-300 dark:text-gray-400">
-              Professor, Department of Electrical and Electronics Engineering<br />
-              SRM Institute of Science and Technology
+              {profileData?.title || 'Professor'}, {profileData?.department || 'Department of Electrical and Electronics Engineering'}<br />
+              {profileData?.university || 'SRM Institute of Science and Technology'}
             </p>
           </div>
           <div>
@@ -43,37 +56,80 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold text-white dark:text-white mb-4">Contact</h3>
             <ul className="space-y-2 text-sm">
-              <li className="flex items-center space-x-2">
-                <Mail size={16} />
-                <a 
-                  href="mailto:preethaj@srmist.edu.in" 
-                  className="hover:text-white dark:hover:text-white transition-colors"
-                >
-                  preethaj@srmist.edu.in
-                </a>
-              </li>
-              <li className="flex items-center space-x-2">
-                <Linkedin size={16} />
-                <a 
-                  href="https://www.linkedin.com/in/preetha-roselyn-17911916/" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-white dark:hover:text-white transition-colors inline-flex items-center gap-1"
-                >
-                  LinkedIn Profile <ExternalLink size={12} />
-                </a>
-              </li>
-              <li className="flex items-center space-x-2">
-                <MapPin size={16} />
-                <a 
-                  href="https://www.srmist.edu.in/faculty/dr-j-preetha-roselyn/" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-white dark:hover:text-white transition-colors inline-flex items-center gap-1"
-                >
-                  College Profile <ExternalLink size={12} />
-                </a>
-              </li>
+              {profileData?.email && (
+                <li className="flex items-center space-x-2">
+                  <Mail size={16} />
+                  <a 
+                    href={`mailto:${profileData.email}`} 
+                    className="hover:text-white dark:hover:text-white transition-colors"
+                  >
+                    {profileData.email}
+                  </a>
+                </li>
+              )}
+              {!profileData?.email && (
+                <li className="flex items-center space-x-2">
+                  <Mail size={16} />
+                  <a 
+                    href="mailto:preethaj@srmist.edu.in" 
+                    className="hover:text-white dark:hover:text-white transition-colors"
+                  >
+                    preethaj@srmist.edu.in
+                  </a>
+                </li>
+              )}
+              {profileData?.linkedinUrl && (
+                <li className="flex items-center space-x-2">
+                  <Linkedin size={16} />
+                  <a 
+                    href={profileData.linkedinUrl} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white dark:hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    LinkedIn Profile <ExternalLink size={12} />
+                  </a>
+                </li>
+              )}
+              {!profileData?.linkedinUrl && (
+                <li className="flex items-center space-x-2">
+                  <Linkedin size={16} />
+                  <a 
+                    href="https://www.linkedin.com/in/preetha-roselyn-17911916/" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white dark:hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    LinkedIn Profile <ExternalLink size={12} />
+                  </a>
+                </li>
+              )}
+              {profileData?.collegeUrl && (
+                <li className="flex items-center space-x-2">
+                  <MapPin size={16} />
+                  <a 
+                    href={profileData.collegeUrl} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white dark:hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    College Profile <ExternalLink size={12} />
+                  </a>
+                </li>
+              )}
+              {!profileData?.collegeUrl && (
+                <li className="flex items-center space-x-2">
+                  <MapPin size={16} />
+                  <a 
+                    href="https://www.srmist.edu.in/faculty/dr-j-preetha-roselyn/" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white dark:hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    College Profile <ExternalLink size={12} />
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </div>
