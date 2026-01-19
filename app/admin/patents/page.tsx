@@ -7,6 +7,7 @@ import { getPatents, addPatent, updatePatent, deletePatent } from '@/lib/supabas
 import { Patent } from '@/types';
 import { Plus, Edit, Trash2, X, Save } from 'lucide-react';
 import Link from 'next/link';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function AdminPatentsPage() {
   const [patents, setPatents] = useState<Patent[]>([]);
@@ -86,7 +87,8 @@ export default function AdminPatentsPage() {
               <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Manage Patents</h1>
               <p className="text-gray-600 dark:text-gray-400 mt-2">Add, edit, or delete patents</p>
             </div>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 items-center">
+              <ThemeToggle />
               <Link
                 href="/admin/dashboard"
                 className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"

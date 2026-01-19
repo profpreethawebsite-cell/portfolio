@@ -70,7 +70,7 @@ export default function About() {
         >
           <motion.div variants={itemVariants} className="space-y-6">
             <div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
                 Professional Experience
               </h3>
               <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -83,7 +83,7 @@ export default function About() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
                 Qualifications
               </h3>
               <ul className="space-y-2">
@@ -91,9 +91,9 @@ export default function About() {
                   <motion.li
                     key={index}
                     variants={itemVariants}
-                    className="flex items-start space-x-3 text-gray-700"
+                    className="flex items-start space-x-3 text-gray-700 dark:text-gray-300"
                   >
-                    <CheckCircle className="text-indigo-600 mt-1 flex-shrink-0" size={20} />
+                    <CheckCircle className="text-indigo-600 dark:text-indigo-400 mt-1 flex-shrink-0" size={20} />
                     <span>{qual}</span>
                   </motion.li>
                 ))}
@@ -103,7 +103,7 @@ export default function About() {
 
           <motion.div variants={itemVariants} className="space-y-6">
             <div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
                 Areas of Specialization
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -123,7 +123,7 @@ export default function About() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
                 Key Achievements
               </h3>
               <ul className="space-y-3">
@@ -131,9 +131,9 @@ export default function About() {
                   <motion.li
                     key={index}
                     variants={itemVariants}
-                    className="flex items-start space-x-3 text-gray-700"
+                    className="flex items-start space-x-3 text-gray-700 dark:text-gray-300"
                   >
-                    <CheckCircle className="text-green-600 mt-1 flex-shrink-0" size={20} />
+                    <CheckCircle className="text-green-600 dark:text-green-400 mt-1 flex-shrink-0" size={20} />
                     <span>{achievement}</span>
                   </motion.li>
                 ))}

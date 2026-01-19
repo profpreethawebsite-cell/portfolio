@@ -178,12 +178,20 @@ export default function Hero() {
           transition={{ duration: 1, delay: 1.2 }}
           className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
         >
-          <motion.div
+          <motion.button
+            onClick={() => {
+              const aboutSection = document.getElementById('about');
+              if (aboutSection) {
+                aboutSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
+            className="cursor-pointer hover:scale-110 transition-transform"
+            aria-label="Scroll to about section"
           >
             <ArrowDown className="text-indigo-600 dark:text-indigo-400" size={32} />
-          </motion.div>
+          </motion.button>
         </motion.div>
       </div>
     </section>

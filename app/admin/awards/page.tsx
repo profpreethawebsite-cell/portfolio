@@ -7,6 +7,7 @@ import { getAwards, addAward, updateAward, deleteAward } from '@/lib/supabase-ut
 import { Award } from '@/types';
 import { Plus, Edit, Trash2, X, Save } from 'lucide-react';
 import Link from 'next/link';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function AdminAwardsPage() {
   const [awards, setAwards] = useState<Award[]>([]);
@@ -84,7 +85,8 @@ export default function AdminAwardsPage() {
               <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Manage Awards</h1>
               <p className="text-gray-600 dark:text-gray-400 mt-2">Add, edit, or delete awards</p>
             </div>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 items-center">
+              <ThemeToggle />
               <Link
                 href="/admin/dashboard"
                 className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"

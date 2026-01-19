@@ -2,44 +2,10 @@
 
 import { Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function ThemeToggle() {
-  const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-
-  useEffect(() => {
-    setMounted(true);
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    const initialTheme = savedTheme || systemTheme;
-    setTheme(initialTheme);
-    applyTheme(initialTheme);
-  }, []);
-
-  const applyTheme = (newTheme: 'light' | 'dark') => {
-    const root = document.documentElement;
-    if (newTheme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('theme', newTheme);
-  };
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    applyTheme(newTheme);
-  };
-
-  if (!mounted) {
-    return (
-      <div className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700">
-        <Moon size={20} className="text-gray-800 dark:text-gray-200" />
-      </div>
-    );
-  }
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <motion.button

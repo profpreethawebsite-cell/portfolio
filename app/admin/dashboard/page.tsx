@@ -18,6 +18,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import Link from 'next/link';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const sections = [
   { name: 'Grants', icon: FileText, href: '/admin/grants', color: 'bg-blue-500' },
@@ -51,17 +52,20 @@ export default function AdminDashboardPage() {
               <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
               <p className="text-gray-600 dark:text-gray-400 mt-2">Manage website content</p>
             </motion.div>
-            <motion.button
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleLogout}
-              className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-            >
-              <LogOut size={20} />
-              <span>Logout</span>
-            </motion.button>
+            <div className="flex items-center space-x-4">
+              <ThemeToggle />
+              <motion.button
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleLogout}
+                className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                <LogOut size={20} />
+                <span>Logout</span>
+              </motion.button>
+            </div>
           </div>
 
           <motion.div

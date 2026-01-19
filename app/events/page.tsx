@@ -22,10 +22,10 @@ export default function EventsPage() {
 
   const getEventTypeColor = (type: string) => {
     const colors: Record<string, string> = {
-      conference: 'bg-blue-100 text-blue-800',
-      workshop: 'bg-purple-100 text-purple-800',
-      seminar: 'bg-green-100 text-green-800',
-      other: 'bg-gray-100 text-gray-800',
+      conference: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      workshop: 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300',
+      seminar: 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+      other: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300',
     };
     return colors[type] || colors.other;
   };
@@ -67,7 +67,7 @@ export default function EventsPage() {
         className="space-y-4"
       >
         {events.length === 0 ? (
-          <div className="text-center py-12 text-gray-600">
+          <div className="text-center py-12 text-gray-600 dark:text-gray-400">
             <p>No events information available at the moment.</p>
           </div>
         ) : (
@@ -76,18 +76,18 @@ export default function EventsPage() {
               key={event.id}
               variants={itemVariants}
               whileHover={{ x: 5, transition: { duration: 0.2 } }}
-              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all border-l-4 border-indigo-600"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-all border-l-4 border-indigo-600"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-2">
-                    <h3 className="text-xl font-semibold text-gray-900">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                       {event.title}
                     </h3>
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${getEventTypeColor(
                         event.type
-                      )}`}
+                      )} dark:bg-opacity-30`}
                     >
                       <Tag size={12} className="inline mr-1" />
                       {event.type}
@@ -96,7 +96,7 @@ export default function EventsPage() {
                 </div>
               </div>
               
-              <div className="space-y-2 text-gray-600 text-sm mb-3">
+              <div className="space-y-2 text-gray-600 dark:text-gray-300 text-sm mb-3">
                 <div className="flex items-center space-x-2">
                   <Calendar size={16} className="text-indigo-600" />
                   <span><strong>Date:</strong> {event.date}</span>
@@ -110,7 +110,7 @@ export default function EventsPage() {
               </div>
               
               {event.description && (
-                <p className="text-gray-700 text-sm leading-relaxed mt-3">
+                <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mt-3">
                   {event.description}
                 </p>
               )}

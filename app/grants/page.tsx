@@ -49,7 +49,7 @@ export default function GrantsPage() {
     <SectionLayout title="Funded Grants" subtitle="Research projects and grants received">
       <div className="grid md:grid-cols-2 gap-6">
         {grants.length === 0 ? (
-          <div className="col-span-2 text-center py-12 text-gray-600">
+          <div className="col-span-2 text-center py-12 text-gray-600 dark:text-gray-400">
             <p>No grants information available at the moment.</p>
           </div>
         ) : (
@@ -60,24 +60,24 @@ export default function GrantsPage() {
               initial="hidden"
               animate="visible"
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow border border-gray-100"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow border border-gray-100 dark:border-gray-700"
             >
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-xl font-semibold text-gray-900 flex-1">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white flex-1">
                   {grant.title}
                 </h3>
                 <span
                   className={`ml-4 px-3 py-1 rounded-full text-xs font-medium ${
                     grant.status === 'ongoing'
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
                   }`}
                 >
                   {grant.status}
                 </span>
               </div>
               
-              <div className="space-y-2 text-gray-600 mb-4">
+              <div className="space-y-2 text-gray-600 dark:text-gray-300 mb-4">
                 <div className="flex items-center space-x-2">
                   <FileText size={16} className="text-indigo-600" />
                   <span className="font-medium">Funding Agency:</span>
@@ -98,7 +98,7 @@ export default function GrantsPage() {
               </div>
               
               {grant.description && (
-                <p className="text-gray-700 text-sm leading-relaxed">
+                <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
                   {grant.description}
                 </p>
               )}

@@ -7,6 +7,7 @@ import { getEvents, addEvent, updateEvent, deleteEvent } from '@/lib/supabase-ut
 import { Event } from '@/types';
 import { Plus, Edit, Trash2, X, Save } from 'lucide-react';
 import Link from 'next/link';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function AdminEventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -86,7 +87,8 @@ export default function AdminEventsPage() {
               <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Manage Events</h1>
               <p className="text-gray-600 dark:text-gray-400 mt-2">Add, edit, or delete events</p>
             </div>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 items-center">
+              <ThemeToggle />
               <Link
                 href="/admin/dashboard"
                 className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"

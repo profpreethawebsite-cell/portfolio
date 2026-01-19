@@ -55,7 +55,7 @@ export default function GalleryPage() {
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
       >
         {images.length === 0 ? (
-          <div className="col-span-full text-center py-12 text-gray-600">
+          <div className="col-span-full text-center py-12 text-gray-600 dark:text-gray-400">
             <p>No gallery images available at the moment.</p>
           </div>
         ) : (

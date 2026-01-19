@@ -57,7 +57,7 @@ export default function PublicationsPage() {
         className="space-y-4"
       >
         {publications.length === 0 ? (
-          <div className="text-center py-12 text-gray-600">
+          <div className="text-center py-12 text-gray-600 dark:text-gray-400">
             <p>No publications available at the moment.</p>
           </div>
         ) : (
@@ -66,12 +66,12 @@ export default function PublicationsPage() {
               key={pub.id}
               variants={itemVariants}
               whileHover={{ x: 5, transition: { duration: 0.2 } }}
-              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all border-l-4 border-indigo-600"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-all border-l-4 border-indigo-600"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
                 {pub.title}
               </h3>
-              <div className="space-y-2 text-gray-600 mb-3">
+              <div className="space-y-2 text-gray-600 dark:text-gray-300 mb-3">
                 <div className="flex items-center space-x-2 text-sm">
                   <BookOpen size={14} className="text-indigo-600" />
                   <span><strong>Authors:</strong> {pub.authors}</span>
@@ -95,7 +95,7 @@ export default function PublicationsPage() {
                     </a>
                   )}
                   {pub.doi && (
-                    <span className="text-sm text-gray-500">DOI: {pub.doi}</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">DOI: {pub.doi}</span>
                   )}
                 </div>
               )}
